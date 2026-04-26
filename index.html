@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>SWMS — Mira Road | Smart Waste Management</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♻️</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     AUTH SCREEN
+════════════════════════════════════════════ -->
+<div id="auth-screen">
+  <div class="auth-inner">
+    <div class="auth-brand">
+      <span class="auth-logo">♻️</span>
+      <h1>SWMS — Mira Road</h1>
+      <p>Smart Waste Management System</p>
+      <span class="auth-sub">Mira-Bhayandar Municipal Corporation</span>
+    </div>
+
+    <div class="auth-box">
+      <!-- Tab Switcher -->
+      <div class="tab-bar">
+        <button class="tab-btn on" id="tab-login"    onclick="switchTab('login')">Sign In</button>
+        <button class="tab-btn"    id="tab-register" onclick="switchTab('register')">Create Account</button>
+      </div>
+
+      <!-- Error box -->
+      <div class="auth-err" id="auth-err"></div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-form">
+        <div class="fg">
+          <label>Email Address</label>
+          <input id="li-email" type="email" placeholder="you@example.com" />
+        </div>
+        <div class="fg">
+          <label>Password</label>
+          <input id="li-pass" type="password" placeholder="Your password"
+                 onkeydown="if(event.key==='Enter') doLogin()" />
+        </div>
+        <button class="btn btn-g btn-full btn-lg" onclick="doLogin()">🔐 Sign In</button>
+        <div class="demo-hint">
+          <b>Demo Credentials:</b>
+          <div>👤 Citizen: user@demo.com / demo123</div>
+          <div>🏢 Employee: officer@mbmc.gov.in / mbmc123</div>
+        </div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="register-form" style="display:none">
+        <div class="fg">
+          <label>Full Name</label>
+          <input id="rg-name" type="text" placeholder="Your full name" />
+        </div>
+        <div class="fg">
+          <label>Email Address</label>
+          <input id="rg-email" type="email" placeholder="you@example.com" />
+        </div>
+        <div class="fg">
+          <label>Password <span class="optional">(min. 6 characters)</span></label>
+          <input id="rg-pass" type="password" placeholder="Create a password" />
+        </div>
+        <div class="fg">
+          <label>I am a...</label>
+          <div class="role-grid">
+            <div class="role-opt on" id="role-citizen" onclick="pickRole('citizen')">
+              <div class="role-icon">👤</div>
+              <div class="role-name">Citizen</div>
+              <div class="role-desc">File complaints, track bins</div>
+            </div>
+            <div class="role-opt" id="role-employee" onclick="pickRole('employee')">
+              <div class="role-icon">🏢</div>
+              <div class="role-name">MBMC Employee</div>
+              <div class="role-desc">Dispatch trucks, manage waste</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-g btn-full btn-lg" onclick="doRegister()">🚀 Create Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MAIN APP SHELL
+════════════════════════════════════════════ -->
+<div id="app" style="display:none">
+
+  <!-- SIDEBAR (desktop) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-top">
+      <span class="sb-logo">♻️</span>
+      <div class="sb-brand">
+        <div class="sb-name">SWMS</div>
+        <div class="sb-loc">Mira-Bhayandar</div>
+      </div>
+    </div>
+    <nav class="sb-nav" id="sb-nav"></nav>
+    <div class="sb-foot">
+      <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">◀</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-wrap">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="tb-breadcrumb">
+        Smart Waste &nbsp;›&nbsp; <span id="tb-page-name">Home</span>
+      </div>
+      <div class="tb-right">
+        <span class="online-badge">🟢 Online</span>
+        <div class="user-av" id="user-av" onclick="goTo('settings')" title="Settings"></div>
+      </div>
+    </header>
+
+    <!-- PAGES -->
+    <main class="pages" id="pages">
+
+      <!-- HOME -->
+      <div class="page" id="pg-home"></div>
+
+      <!-- MAP — kept in DOM so Google Map persists -->
+      <div class="page" id="pg-map">
+        <div class="pp">
+          <div class="page-header">
+            <div>
+              <h2 class="page-title">Mira Road Bin Map</h2>
+              <p class="page-sub">Click a marker to view bin details &amp; dispatch trucks</p>
+            </div>
+            <div class="map-type-btns">
+              <button class="mtype-btn active" id="btn-road"      onclick="setMapType('roadmap')">🗺️ Map</button>
+              <button class="mtype-btn"         id="btn-satellite" onclick="setMapType('satellite')">🛰️ Satellite</button>
+              <button class="mtype-btn"         id="btn-hybrid"    onclick="setMapType('hybrid')">🌐 Hybrid</button>
+            </div>
+          </div>
+
+          <div class="map-layout">
+            <!-- Google Map renders here -->
+            <div id="gmap"></div>
+
+            <!-- Side panel -->
+            <div class="map-panel">
+              <div id="bin-detail-box">
+                <div class="card empty-panel">
+                  <div class="empty-icon">👆</div>
+                  <div>Click a bin marker on the map to view its details</div>
+                </div>
+              </div>
+
+              <div class="card bin-list-card">
+                <div class="bin-list-title">All Bins</div>
+                <div id="bin-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPLAINT FORM -->
+      <div class="page" id="pg-complaint"></div>
+
+      <!-- MY COMPLAINTS (Citizen) -->
+      <div class="page" id="pg-myc"></div>
+
+      <!-- ALL COMPLAINTS (Employee) -->
+      <div class="page" id="pg-allc"></div>
+
+      <!-- REPORTS -->
+      <div class="page" id="pg-reports"></div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="pg-settings"></div>
+
+    </main>
+  </div>
+
+  <!-- BOTTOM NAV (mobile) -->
+  <nav class="bottom-nav" id="bottom-nav"></nav>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast-wrap"></div>
+
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhRxWNmREzQ2RTGDKr_pqxG9d6gE6qPHk&callback=initGoogleMap" async defer></script>
+<script src="script.js"></script>
+</body>
+</html>
