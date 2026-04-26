@@ -8,57 +8,159 @@
 
 /* ── CONFIG & DATA ───────────────────────────────── */
 const MAP_CENTER = { lat: 19.2813, lng: 72.8542 };
-const MAP_ZOOM   = 13;
+const MAP_ZOOM = 13;
 
 const BINS_DATA = [
-  { id: 'MR-01', zone: 'Mira Road East',  area: 'Jangid Complex', lat: 19.2890, lng: 72.8710, fill: 91 },
-  { id: 'MR-02', zone: 'Mira Road West',  area: 'Sector 3',       lat: 19.2870, lng: 72.8540, fill: 63 },
-  { id: 'MR-03', zone: 'Bhayandar East',  area: 'Golden Nest',    lat: 19.3055, lng: 72.8760, fill: 28 },
-  { id: 'MR-04', zone: 'Bhayandar West',  area: 'Silver Park',    lat: 19.3030, lng: 72.8555, fill: 77 },
-  { id: 'MR-05', zone: 'Kashimira',       area: 'Nav Nagar',      lat: 19.2720, lng: 72.8680, fill: 14 },
-  { id: 'MR-06', zone: 'Shanti Nagar',    area: 'Navghar',        lat: 19.2810, lng: 72.8630, fill: 53 },
-  { id: 'MR-07', zone: 'Uttan Road',      area: 'Uttan Village',  lat: 19.3220, lng: 72.8290, fill: 85 },
-  { id: 'MR-08', zone: 'Murdhe Village',  area: 'Near Station',   lat: 19.2750, lng: 72.8720, fill: 40 },
+  // ── Mira Road East ──
+  { id: 'MR-01', zone: 'Mira Road East', area: 'Jangid Complex', lat: 19.2815, lng: 72.8685, fill: 91 },
+  { id: 'MR-02', zone: 'Mira Road East', area: 'Sheetal Nagar', lat: 19.2842, lng: 72.8698, fill: 73 },
+  { id: 'MR-03', zone: 'Mira Road East', area: 'Penkarpada', lat: 19.2780, lng: 72.8710, fill: 45 },
+  { id: 'MR-04', zone: 'Mira Road East', area: 'Kanakia Road', lat: 19.2865, lng: 72.8725, fill: 82 },
+  { id: 'MR-05', zone: 'Mira Road East', area: 'Pleasant Park', lat: 19.2795, lng: 72.8660, fill: 36 },
+  // ── Mira Road West ──
+  { id: 'MR-06', zone: 'Mira Road West', area: 'Sector 2', lat: 19.2855, lng: 72.8540, fill: 63 },
+  { id: 'MR-07', zone: 'Mira Road West', area: 'Sector 5', lat: 19.2880, lng: 72.8510, fill: 28 },
+  { id: 'MR-08', zone: 'Mira Road West', area: 'Naya Nagar', lat: 19.2830, lng: 72.8495, fill: 55 },
+  { id: 'MR-09', zone: 'Mira Road West', area: 'Geeta Nagar', lat: 19.2900, lng: 72.8530, fill: 88 },
+  // ── Kashimira ──
+  { id: 'MR-10', zone: 'Kashimira', area: 'Srishti Complex', lat: 19.2720, lng: 72.8635, fill: 14 },
+  { id: 'MR-11', zone: 'Kashimira', area: 'Beverly Park', lat: 19.2695, lng: 72.8670, fill: 67 },
+  { id: 'MR-12', zone: 'Kashimira', area: 'Near Kashimira Signal', lat: 19.2740, lng: 72.8590, fill: 42 },
+  // ── Bhayandar East ──
+  { id: 'MR-13', zone: 'Bhayandar East', area: 'Golden Nest', lat: 19.3010, lng: 72.8680, fill: 31 },
+  { id: 'MR-14', zone: 'Bhayandar East', area: 'Navjivan Circle', lat: 19.3040, lng: 72.8720, fill: 76 },
+  { id: 'MR-15', zone: 'Bhayandar East', area: 'Jesal Park', lat: 19.2965, lng: 72.8665, fill: 58 },
+  { id: 'MR-16', zone: 'Bhayandar East', area: 'Bhayandar Station', lat: 19.3055, lng: 72.8615, fill: 94 },
+  // ── Bhayandar West ──
+  { id: 'MR-17', zone: 'Bhayandar West', area: 'Silver Park', lat: 19.3035, lng: 72.8445, fill: 77 },
+  { id: 'MR-18', zone: 'Bhayandar West', area: 'Maxus Mall Area', lat: 19.3000, lng: 72.8480, fill: 52 },
+  { id: 'MR-19', zone: 'Bhayandar West', area: 'Navghar Road', lat: 19.2980, lng: 72.8510, fill: 39 },
+  // ── Shanti Nagar / Navghar ──
+  { id: 'MR-20', zone: 'Shanti Nagar', area: 'Navghar Gaon', lat: 19.2810, lng: 72.8580, fill: 53 },
+  { id: 'MR-21', zone: 'Shanti Nagar', area: 'Ram Mandir Road', lat: 19.2835, lng: 72.8610, fill: 71 },
+  // ── Uttan / Dongri ──
+  { id: 'MR-22', zone: 'Uttan Road', area: 'Uttan Village', lat: 19.3180, lng: 72.8290, fill: 85 },
+  { id: 'MR-23', zone: 'Uttan Road', area: 'Dongri Village', lat: 19.3120, lng: 72.8360, fill: 22 },
+  // ── Mira Station Area ──
+  { id: 'MR-24', zone: 'Mira Road Station', area: 'Station Road East', lat: 19.2815, lng: 72.8645, fill: 69 },
+  { id: 'MR-25', zone: 'Mira Road Station', area: 'Station Road West', lat: 19.2815, lng: 72.8560, fill: 48 },
+];
+
+/* ── GARBAGE TRUCKS FLEET ──────────────────────────── */
+const TRUCKS_DATA = [
+  {
+    id: 'TK-01', name: 'Truck Alpha', driver: 'Sunil Patil', phone: '9820XXXXXX',
+    status: 'active', capacity: '5 Ton', zone: 'Mira Road East',
+    route: [
+      { lat: 19.2815, lng: 72.8685 }, { lat: 19.2830, lng: 72.8690 },
+      { lat: 19.2842, lng: 72.8698 }, { lat: 19.2860, lng: 72.8710 },
+      { lat: 19.2865, lng: 72.8725 }, { lat: 19.2850, lng: 72.8700 },
+      { lat: 19.2830, lng: 72.8680 }, { lat: 19.2815, lng: 72.8660 },
+      { lat: 19.2795, lng: 72.8660 }, { lat: 19.2780, lng: 72.8680 },
+    ],
+  },
+  {
+    id: 'TK-02', name: 'Truck Beta', driver: 'Rajesh Kumar', phone: '9867XXXXXX',
+    status: 'active', capacity: '3 Ton', zone: 'Mira Road West',
+    route: [
+      { lat: 19.2855, lng: 72.8540 }, { lat: 19.2860, lng: 72.8530 },
+      { lat: 19.2870, lng: 72.8520 }, { lat: 19.2880, lng: 72.8510 },
+      { lat: 19.2890, lng: 72.8520 }, { lat: 19.2900, lng: 72.8530 },
+      { lat: 19.2880, lng: 72.8540 }, { lat: 19.2860, lng: 72.8530 },
+      { lat: 19.2840, lng: 72.8510 }, { lat: 19.2830, lng: 72.8495 },
+    ],
+  },
+  {
+    id: 'TK-03', name: 'Truck Gamma', driver: 'Amit Singh', phone: '9876XXXXXX',
+    status: 'active', capacity: '5 Ton', zone: 'Bhayandar East',
+    route: [
+      { lat: 19.2965, lng: 72.8665 }, { lat: 19.2980, lng: 72.8680 },
+      { lat: 19.3010, lng: 72.8680 }, { lat: 19.3030, lng: 72.8700 },
+      { lat: 19.3040, lng: 72.8720 }, { lat: 19.3055, lng: 72.8700 },
+      { lat: 19.3055, lng: 72.8670 }, { lat: 19.3055, lng: 72.8640 },
+      { lat: 19.3040, lng: 72.8620 }, { lat: 19.3020, lng: 72.8650 },
+    ],
+  },
+  {
+    id: 'TK-04', name: 'Truck Delta', driver: 'Vikas Rao', phone: '9890XXXXXX',
+    status: 'active', capacity: '3 Ton', zone: 'Kashimira',
+    route: [
+      { lat: 19.2720, lng: 72.8635 }, { lat: 19.2710, lng: 72.8650 },
+      { lat: 19.2695, lng: 72.8670 }, { lat: 19.2710, lng: 72.8680 },
+      { lat: 19.2730, lng: 72.8670 }, { lat: 19.2740, lng: 72.8650 },
+      { lat: 19.2740, lng: 72.8620 }, { lat: 19.2740, lng: 72.8590 },
+      { lat: 19.2730, lng: 72.8610 }, { lat: 19.2720, lng: 72.8635 },
+    ],
+  },
+  {
+    id: 'TK-05', name: 'Truck Echo', driver: 'Manoj Joshi', phone: '9833XXXXXX',
+    status: 'idle', capacity: '5 Ton', zone: 'Bhayandar West',
+    route: [
+      { lat: 19.3035, lng: 72.8445 }, { lat: 19.3020, lng: 72.8460 },
+      { lat: 19.3000, lng: 72.8480 }, { lat: 19.2985, lng: 72.8500 },
+      { lat: 19.2980, lng: 72.8510 }, { lat: 19.2995, lng: 72.8500 },
+      { lat: 19.3010, lng: 72.8480 }, { lat: 19.3025, lng: 72.8460 },
+      { lat: 19.3035, lng: 72.8445 }, { lat: 19.3035, lng: 72.8445 },
+    ],
+  },
+  {
+    id: 'TK-06', name: 'Truck Foxtrot', driver: 'Deepak Pawar', phone: '9821XXXXXX',
+    status: 'active', capacity: '3 Ton', zone: 'Uttan / Dongri',
+    route: [
+      { lat: 19.3180, lng: 72.8290 }, { lat: 19.3165, lng: 72.8310 },
+      { lat: 19.3150, lng: 72.8330 }, { lat: 19.3135, lng: 72.8345 },
+      { lat: 19.3120, lng: 72.8360 }, { lat: 19.3110, lng: 72.8370 },
+      { lat: 19.3130, lng: 72.8350 }, { lat: 19.3150, lng: 72.8330 },
+      { lat: 19.3165, lng: 72.8310 }, { lat: 19.3180, lng: 72.8290 },
+    ],
+  },
 ];
 
 const DEMO_USERS = [
-  { id: 1, name: 'Rahul Sharma',  email: 'user@demo.com',       pw: 'demo123', role: 'citizen'  },
-  { id: 2, name: 'MBMC Officer',  email: 'officer@mbmc.gov.in', pw: 'mbmc123', role: 'employee' },
+  { id: 1, name: 'Rahul Sharma', email: 'user@demo.com', pw: 'demo123', role: 'citizen' },
+  { id: 2, name: 'MBMC Officer', email: 'officer@mbmc.gov.in', pw: 'mbmc123', role: 'employee' },
 ];
 
 const SAMPLE_COMPLAINTS = [
-  { id: 'C001', issue: 'Overflowing Dustbin',    zone: 'Mira Road East',  desc: 'Near Jangid Complex gate, overflowing since morning.', time: '1h ago',    status: 'Pending',     uid: 1, uname: 'Rahul Sharma', img: null },
-  { id: 'C002', issue: 'Garbage Not Collected',  zone: 'Bhayandar West',  desc: 'Silver Park area — 3 days no collection.',            time: '4h ago',    status: 'In Progress', uid: 1, uname: 'Rahul Sharma', img: null },
-  { id: 'C003', issue: 'Illegal Dumping',        zone: 'Uttan Road',      desc: 'Large pile near Gorai link road junction.',           time: 'Yesterday', status: 'Resolved',    uid: 1, uname: 'Rahul Sharma', img: null },
-  { id: 'C004', issue: 'Damaged Bin',            zone: 'Bhayandar West',  desc: 'Silver Park main gate bin lid is broken.',            time: '2d ago',    status: 'Pending',     uid: 1, uname: 'Rahul Sharma', img: null },
+  { id: 'C001', issue: 'Overflowing Dustbin', zone: 'Mira Road East', desc: 'Near Jangid Complex gate, overflowing since morning.', time: '1h ago', status: 'Pending', uid: 1, uname: 'Rahul Sharma', img: null },
+  { id: 'C002', issue: 'Garbage Not Collected', zone: 'Bhayandar West', desc: 'Silver Park area — 3 days no collection.', time: '4h ago', status: 'In Progress', uid: 1, uname: 'Rahul Sharma', img: null },
+  { id: 'C003', issue: 'Illegal Dumping', zone: 'Uttan Road', desc: 'Large pile near Gorai link road junction.', time: 'Yesterday', status: 'Resolved', uid: 1, uname: 'Rahul Sharma', img: null },
+  { id: 'C004', issue: 'Damaged Bin', zone: 'Bhayandar West', desc: 'Silver Park main gate bin lid is broken.', time: '2d ago', status: 'Pending', uid: 1, uname: 'Rahul Sharma', img: null },
 ];
 
-const STATUS_NEXT  = { 'Pending': 'In Progress', 'In Progress': 'Resolved' };
-const ISSUE_TYPES  = ['Overflowing Dustbin','Garbage Not Collected','Illegal Dumping','Damaged Bin','Bad Smell / Unhygienic','Stray Animals Near Waste','Other'];
-const MAP_TYPES    = ['roadmap', 'satellite', 'hybrid'];
+const STATUS_NEXT = { 'Pending': 'In Progress', 'In Progress': 'Resolved' };
+const ISSUE_TYPES = ['Overflowing Dustbin', 'Garbage Not Collected', 'Illegal Dumping', 'Damaged Bin', 'Bad Smell / Unhygienic', 'Stray Animals Near Waste', 'Other'];
+const MAP_TYPES = ['roadmap', 'satellite', 'hybrid'];
 
 /* ── APP STATE ───────────────────────────────────── */
 const S = {
-  users:     JSON.parse(localStorage.getItem('swms_users'))    || DEMO_USERS.map(u => ({ ...u })),
-  comps:     JSON.parse(localStorage.getItem('swms_comps'))    || SAMPLE_COMPLAINTS.map(c => ({ ...c })),
-  me:        null,
-  bins:      BINS_DATA.map(b => ({ ...b })),
-  dark:      false,
-  notif:     true,
-  balert:    true,
-  page:      null,
-  sbOpen:    true,
-  regRole:   'citizen',
-  upImg:     null,
-  upName:    '',
+  users: JSON.parse(localStorage.getItem('swms_users')) || DEMO_USERS.map(u => ({ ...u })),
+  comps: JSON.parse(localStorage.getItem('swms_comps')) || SAMPLE_COMPLAINTS.map(c => ({ ...c })),
+  me: null,
+  bins: BINS_DATA.map(b => ({ ...b })),
+  dark: false,
+  notif: true,
+  balert: true,
+  page: null,
+  sbOpen: true,
+  regRole: 'citizen',
+  upImg: null,
+  upName: '',
   activeFilter: 'All',
-  expanded:  null,
+  expanded: null,
   // Map state
-  gmap:      null,
-  markers:   {},
-  mapType:   'roadmap',
-  selBin:    null,
-  mapReady:  false,
+  gmap: null,
+  markers: {},
+  mapType: 'roadmap',
+  selBin: null,
+  mapReady: false,
+  // Truck state
+  trucks: TRUCKS_DATA.map(t => ({ ...t, routeIdx: 0 })),
+  truckMarkers: {},
+  truckPaths: {},
+  truckInterval: null,
+  showTrucks: true,
+  selTruck: null,
 };
 
 /* ── HELPERS ─────────────────────────────────────── */
@@ -66,7 +168,7 @@ function save() {
   localStorage.setItem('swms_users', JSON.stringify(S.users));
   localStorage.setItem('swms_comps', JSON.stringify(S.comps));
 }
-const isEmp   = () => S.me?.role === 'employee';
+const isEmp = () => S.me?.role === 'employee';
 const accColor = () => isEmp() ? '#1d4ed8' : '#16a34a';
 
 function binColor(fill) {
@@ -85,7 +187,7 @@ function statusBadge(status) {
   const cls = { 'Pending': 'badge-pending', 'In Progress': 'badge-inprogress', 'Resolved': 'badge-resolved' };
   return `<span class="badge ${cls[status] || 'badge-pending'}">${status}</span>`;
 }
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 /* ── TOAST ───────────────────────────────────────── */
 function toast(msg, type = 'ok') {
@@ -106,7 +208,7 @@ function switchTab(mode) {
   authMode = mode;
   document.getElementById('tab-login').classList.toggle('on', mode === 'login');
   document.getElementById('tab-register').classList.toggle('on', mode === 'register');
-  document.getElementById('login-form').style.display    = mode === 'login'    ? '' : 'none';
+  document.getElementById('login-form').style.display = mode === 'login' ? '' : 'none';
   document.getElementById('register-form').style.display = mode === 'register' ? '' : 'none';
   hideErr();
 }
@@ -129,7 +231,7 @@ function hideErr() {
 function doLogin() {
   hideErr();
   const email = document.getElementById('li-email').value.trim().toLowerCase();
-  const pw    = document.getElementById('li-pass').value;
+  const pw = document.getElementById('li-pass').value;
   if (!email || !pw) { showErr('Please fill in all fields.'); return; }
   const user = S.users.find(u => u.email.toLowerCase() === email && u.pw === pw);
   if (!user) { showErr('Invalid email or password. Check the demo credentials below.'); return; }
@@ -139,9 +241,9 @@ function doLogin() {
 
 function doRegister() {
   hideErr();
-  const name  = document.getElementById('rg-name').value.trim();
+  const name = document.getElementById('rg-name').value.trim();
   const email = document.getElementById('rg-email').value.trim().toLowerCase();
-  const pw    = document.getElementById('rg-pass').value;
+  const pw = document.getElementById('rg-pass').value;
   if (!name || !email || !pw) { showErr('All fields are required.'); return; }
   if (pw.length < 6) { showErr('Password must be at least 6 characters.'); return; }
   if (S.users.find(u => u.email.toLowerCase() === email)) { showErr('Email already registered. Please sign in.'); return; }
@@ -166,7 +268,7 @@ function doLogout() {
   document.getElementById('app').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'block';
   document.getElementById('li-email').value = '';
-  document.getElementById('li-pass').value  = '';
+  document.getElementById('li-pass').value = '';
   hideErr();
   toast('Logged out successfully.');
 }
@@ -177,19 +279,19 @@ function doLogout() {
 function getNavItems() {
   return isEmp()
     ? [
-        { id: 'home',    icon: '🏠', label: 'Home'       },
-        { id: 'map',     icon: '🗺️', label: 'Bin Map'    },
-        { id: 'allc',    icon: '📢', label: 'Complaints' },
-        { id: 'reports', icon: '📈', label: 'Reports'    },
-        { id: 'settings',icon: '⚙️', label: 'Settings'   },
-      ]
+      { id: 'home', icon: '🏠', label: 'Home' },
+      { id: 'map', icon: '🗺️', label: 'Bin Map' },
+      { id: 'allc', icon: '📢', label: 'Complaints' },
+      { id: 'reports', icon: '📈', label: 'Reports' },
+      { id: 'settings', icon: '⚙️', label: 'Settings' },
+    ]
     : [
-        { id: 'home',       icon: '🏠', label: 'Home'       },
-        { id: 'map',        icon: '🗺️', label: 'Bin Map'    },
-        { id: 'complaint',  icon: '📢', label: 'Complaint'  },
-        { id: 'myc',        icon: '📋', label: 'My Cases'   },
-        { id: 'settings',   icon: '⚙️', label: 'Settings'   },
-      ];
+      { id: 'home', icon: '🏠', label: 'Home' },
+      { id: 'map', icon: '🗺️', label: 'Bin Map' },
+      { id: 'complaint', icon: '📢', label: 'Complaint' },
+      { id: 'myc', icon: '📋', label: 'My Cases' },
+      { id: 'settings', icon: '⚙️', label: 'Settings' },
+    ];
 }
 
 function buildNav() {
@@ -216,8 +318,8 @@ function syncNav(page) {
     } else {
       el.classList.toggle('active', on);
       const dot = el.querySelector('.bn-dot');
-      if (on && !dot)   { const d = document.createElement('div'); d.className = 'bn-dot'; el.appendChild(d); }
-      if (!on && dot)   dot.remove();
+      if (on && !dot) { const d = document.createElement('div'); d.className = 'bn-dot'; el.appendChild(d); }
+      if (!on && dot) dot.remove();
     }
   });
   const label = getNavItems().find(x => x.id === page)?.label || '';
@@ -250,13 +352,13 @@ function goTo(page) {
   syncNav(page);
 
   switch (page) {
-    case 'home':      renderHome();        break;
-    case 'map':       renderMap();         break;
-    case 'complaint': renderComplaint();   break;
-    case 'myc':       renderMyC();         break;
-    case 'allc':      renderAllC();        break;
-    case 'reports':   renderReports();     break;
-    case 'settings':  renderSettings();    break;
+    case 'home': renderHome(); break;
+    case 'map': renderMap(); break;
+    case 'complaint': renderComplaint(); break;
+    case 'myc': renderMyC(); break;
+    case 'allc': renderAllC(); break;
+    case 'reports': renderReports(); break;
+    case 'settings': renderSettings(); break;
   }
 }
 
@@ -274,6 +376,10 @@ function initGoogleMap() {
 function renderMap() {
   // If API already loaded, build; otherwise wait (initGoogleMap will call it)
   if (S.mapReady) buildGoogleMap();
+  // Trigger resize after layout is settled (critical for laptop full-height)
+  setTimeout(() => {
+    if (S.gmap) google.maps.event.trigger(S.gmap, 'resize');
+  }, 150);
 }
 
 function buildGoogleMap() {
@@ -283,17 +389,29 @@ function buildGoogleMap() {
     return;
   }
   S.gmap = new google.maps.Map(document.getElementById('gmap'), {
-    center:    MAP_CENTER,
-    zoom:      MAP_ZOOM,
+    center: MAP_CENTER,
+    zoom: MAP_ZOOM,
     mapTypeId: S.mapType,
     fullscreenControl: true,
     zoomControl: true,
     streetViewControl: false,
     mapTypeControl: false,   // We have our own buttons
-    styles: [{featureType:'poi',stylers:[{visibility:'off'}]}],
+    styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }],
   });
   addMapMarkers();
+  addTruckMarkers();
   renderBinList();
+  renderTruckList();
+  startTruckSimulation();
+
+  // Observe container resize (e.g. sidebar toggle, window resize)
+  const gmapEl = document.getElementById('gmap');
+  if (typeof ResizeObserver !== 'undefined') {
+    const ro = new ResizeObserver(() => {
+      if (S.gmap) google.maps.event.trigger(S.gmap, 'resize');
+    });
+    ro.observe(gmapEl);
+  }
 }
 
 function addMapMarkers() {
@@ -403,11 +521,200 @@ function renderBinList() {
     const c = binColor(b.fill);
     return `<div class="bin-list-row${b.id === S.selBin ? ' selected' : ''}" onclick="selectBin('${b.id}')">
       <div class="bin-dot" style="background:${c}"></div>
-      <div class="bin-name">${esc(b.zone)}</div>
+      <div class="bin-name">${esc(b.zone)} <span style="color:var(--mut);font-weight:400">· ${esc(b.area)}</span></div>
       <div class="bin-pct" style="color:${c}">${b.fill}%</div>
     </div>`;
   }).join('');
 }
+
+/* ════════════════════════════════════════════════════
+   GARBAGE TRUCK TRACKING — Real-time Simulation
+═══════════════════════════════════════════════════ */
+
+const TRUCK_SVG = 'M 0,-8 L 6,-2 L 6,6 L -6,6 L -6,-2 Z';
+
+function addTruckMarkers() {
+  if (!S.gmap) return;
+  // Clear existing truck markers
+  Object.values(S.truckMarkers).forEach(m => m.setMap(null));
+  Object.values(S.truckPaths).forEach(p => p.setMap(null));
+  S.truckMarkers = {};
+  S.truckPaths = {};
+
+  S.trucks.forEach(t => {
+    const pos = t.route[t.routeIdx];
+    const isActive = t.status === 'active';
+    const color = isActive ? '#1d4ed8' : '#6b7280';
+
+    // Truck marker
+    const marker = new google.maps.Marker({
+      position: pos,
+      map: S.showTrucks ? S.gmap : null,
+      title: `${t.name} — ${t.driver} (${t.status.toUpperCase()})`,
+      icon: {
+        path: TRUCK_SVG,
+        scale: 1.8,
+        fillColor: color,
+        fillOpacity: 1,
+        strokeColor: '#ffffff',
+        strokeWeight: 2,
+        rotation: 0,
+        anchor: new google.maps.Point(0, 0),
+      },
+      label: {
+        text: '🚛',
+        fontSize: '18px',
+      },
+      zIndex: 1000,
+    });
+
+    // Truck info window
+    const infoWindow = new google.maps.InfoWindow({
+      content: truckInfoHtml(t),
+    });
+
+    marker.addListener('click', () => {
+      infoWindow.open(S.gmap, marker);
+      S.selTruck = t.id;
+      renderTruckList();
+    });
+
+    S.truckMarkers[t.id] = marker;
+
+    // Route path (dashed line)
+    if (isActive) {
+      const path = new google.maps.Polyline({
+        path: t.route,
+        geodesic: true,
+        strokeColor: color,
+        strokeOpacity: 0.5,
+        strokeWeight: 3,
+        map: S.showTrucks ? S.gmap : null,
+        icons: [{
+          icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, strokeWeight: 2, scale: 3 },
+          offset: '0',
+          repeat: '16px',
+        }],
+      });
+      S.truckPaths[t.id] = path;
+    }
+  });
+}
+
+function truckInfoHtml(t) {
+  const isActive = t.status === 'active';
+  const statusColor = isActive ? '#16a34a' : '#6b7280';
+  const statusBg = isActive ? '#f0fdf4' : '#f3f4f6';
+  return `<div style="font-family:'Plus Jakarta Sans',system-ui;padding:6px 8px;min-width:180px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="font-size:22px">🚛</span>
+      <div>
+        <strong style="font-size:14px">${t.name}</strong>
+        <div style="font-size:11px;color:#666">${t.id} · ${t.capacity}</div>
+      </div>
+    </div>
+    <div style="background:${statusBg};border:1px solid ${statusColor}33;border-radius:6px;padding:6px 8px;margin-bottom:6px">
+      <div style="font-size:10px;color:${statusColor};font-weight:700;text-transform:uppercase;letter-spacing:.5px">● ${t.status}</div>
+    </div>
+    <div style="font-size:12px;color:#333;line-height:1.6">
+      <div>👤 <strong>${t.driver}</strong></div>
+      <div>📞 ${t.phone}</div>
+      <div>📍 ${t.zone}</div>
+    </div>
+  </div>`;
+}
+
+// Animate trucks along their routes
+function startTruckSimulation() {
+  if (S.truckInterval) clearInterval(S.truckInterval);
+  S.truckInterval = setInterval(() => {
+    S.trucks.forEach(t => {
+      if (t.status !== 'active') return;
+      // Move to next waypoint
+      t.routeIdx = (t.routeIdx + 1) % t.route.length;
+      const nextPos = t.route[t.routeIdx];
+      const marker = S.truckMarkers[t.id];
+      if (marker) {
+        // Smooth animation
+        animateMarker(marker, marker.getPosition(), nextPos, 2500);
+      }
+    });
+  }, 3000);
+}
+
+function stopTruckSimulation() {
+  if (S.truckInterval) {
+    clearInterval(S.truckInterval);
+    S.truckInterval = null;
+  }
+}
+
+// Smooth marker movement animation
+function animateMarker(marker, from, to, duration) {
+  const startTime = Date.now();
+  const fromLat = from.lat();
+  const fromLng = from.lng();
+  const toLat = typeof to.lat === 'function' ? to.lat() : to.lat;
+  const toLng = typeof to.lng === 'function' ? to.lng() : to.lng;
+
+  function step() {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease in-out
+    const ease = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    const lat = fromLat + (toLat - fromLat) * ease;
+    const lng = fromLng + (toLng - fromLng) * ease;
+    marker.setPosition({ lat, lng });
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+function toggleTruckVisibility() {
+  S.showTrucks = !S.showTrucks;
+  Object.values(S.truckMarkers).forEach(m => m.setMap(S.showTrucks ? S.gmap : null));
+  Object.values(S.truckPaths).forEach(p => p.setMap(S.showTrucks ? S.gmap : null));
+  const btn = document.getElementById('btn-trucks');
+  if (btn) {
+    btn.classList.toggle('active', S.showTrucks);
+    btn.textContent = S.showTrucks ? '🚛 Trucks ON' : '🚛 Trucks OFF';
+  }
+  toast(S.showTrucks ? '🚛 Truck tracking enabled' : '🚛 Truck tracking hidden');
+}
+
+function renderTruckList() {
+  const el = document.getElementById('truck-list');
+  if (!el) return;
+  el.innerHTML = S.trucks.map(t => {
+    const isActive = t.status === 'active';
+    const dotColor = isActive ? '#1d4ed8' : '#6b7280';
+    return `<div class="bin-list-row${t.id === S.selTruck ? ' selected' : ''}" onclick="focusTruck('${t.id}')">
+      <div style="font-size:16px;flex-shrink:0">🚛</div>
+      <div class="bin-name">${esc(t.name)} <span style="color:var(--mut);font-weight:400;font-size:10px">${isActive ? '● ACTIVE' : '● IDLE'}</span></div>
+      <div style="font-size:11px;color:${dotColor};font-weight:700">${esc(t.zone)}</div>
+    </div>`;
+  }).join('');
+}
+
+function focusTruck(id) {
+  S.selTruck = id;
+  const t = S.trucks.find(x => x.id === id);
+  if (!t) return;
+  const marker = S.truckMarkers[id];
+  if (marker && S.gmap) {
+    S.gmap.panTo(marker.getPosition());
+    S.gmap.setZoom(15);
+    google.maps.event.trigger(marker, 'click');
+  }
+  renderTruckList();
+}
+
 
 /* ════════════════════════════════════════════════════
    HOME PAGE
@@ -417,8 +724,8 @@ function renderHome() {
 }
 
 function renderCitizenHome() {
-  const mine  = S.comps.filter(c => c.uid === S.me.id);
-  const crit  = S.bins.filter(b => b.fill >= 80);
+  const mine = S.comps.filter(c => c.uid === S.me.id);
+  const crit = S.bins.filter(b => b.fill >= 80);
 
   const critHtml = crit.length ? `
     <div class="crit-box">
@@ -434,7 +741,7 @@ function renderCitizenHome() {
   const recentHtml = mine.length === 0
     ? `<div class="card empty-state"><div class="ei">📭</div>No complaints yet. <button class="link-btn" onclick="goTo('complaint')">File your first →</button></div>`
     : `<div class="card card-0">${mine.slice(0, 4).map((c, i, a) => `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:${i < a.length-1 ? '1px solid var(--brd)' : 'none'};flex-wrap:wrap;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:${i < a.length - 1 ? '1px solid var(--brd)' : 'none'};flex-wrap:wrap;gap:8px">
           <div><div style="font-size:13px;font-weight:700">${esc(c.issue)}</div><div style="font-size:11px;color:var(--mut);margin-top:3px">${esc(c.zone)} · ${c.time}</div></div>
           ${statusBadge(c.status)}
         </div>`).join('')}
@@ -456,10 +763,10 @@ function renderCitizenHome() {
     <div class="pp">
       <div class="grid-3" style="margin-bottom:22px">
         ${[
-          { i:'📢', l:'Total Filed',  v: mine.length,                                   s:'Complaints filed',  a: false },
-          { i:'⏳', l:'Pending',      v: mine.filter(c=>c.status==='Pending').length,   s:'Awaiting action',   a: true  },
-          { i:'✅', l:'Resolved',     v: mine.filter(c=>c.status==='Resolved').length,  s:'Completed',         a: false },
-        ].map(x => `
+      { i: '📢', l: 'Total Filed', v: mine.length, s: 'Complaints filed', a: false },
+      { i: '⏳', l: 'Pending', v: mine.filter(c => c.status === 'Pending').length, s: 'Awaiting action', a: true },
+      { i: '✅', l: 'Resolved', v: mine.filter(c => c.status === 'Resolved').length, s: 'Completed', a: false },
+    ].map(x => `
           <div class="stat-card${x.a && x.v > 0 ? ' alert' : ''}">
             <div class="st-icon">${x.i}</div>
             <div class="st-val">${x.v}</div>
@@ -511,11 +818,12 @@ function renderEmpHome() {
     <div class="pp">
       <div class="grid-4" style="margin-bottom:24px">
         ${[
-          { i:'🗑️', l:'Total Bins',    v: S.bins.length, s:'All zones',        a: false },
-          { i:'🚨', l:'Critical',      v: crit.length,   s:'Need dispatch',    a: crit.length > 0 },
-          { i:'📢', l:'Pending',       v: pend.length,   s:'Open complaints',  a: pend.length > 0 },
-          { i:'✅', l:'Resolved',      v: resl.length,   s:'All time',         a: false },
-        ].map(x => `
+      { i: '🗑️', l: 'Total Bins', v: S.bins.length, s: 'All zones', a: false },
+      { i: '🚨', l: 'Critical', v: crit.length, s: 'Need dispatch', a: crit.length > 0 },
+      { i: '🚛', l: 'Active Trucks', v: S.trucks.filter(t => t.status === 'active').length + '/' + S.trucks.length, s: 'Fleet tracking', a: false },
+      { i: '📢', l: 'Pending', v: pend.length, s: 'Open complaints', a: pend.length > 0 },
+      { i: '✅', l: 'Resolved', v: resl.length, s: 'All time', a: false },
+    ].map(x => `
           <div class="stat-card${x.a && x.v > 0 ? ' alert' : ''}">
             <div class="st-icon">${x.i}</div>
             <div class="st-val">${x.v}</div>
@@ -530,9 +838,9 @@ function renderEmpHome() {
       </div>
       <div class="card card-0">
         ${pend.length === 0
-          ? '<div class="empty-state">✅ No pending complaints right now.</div>'
-          : pend.slice(0,4).map((c,i,a) => `
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:${i<a.length-1?'1px solid var(--brd)':'none'};flex-wrap:wrap;gap:8px">
+      ? '<div class="empty-state">✅ No pending complaints right now.</div>'
+      : pend.slice(0, 4).map((c, i, a) => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:${i < a.length - 1 ? '1px solid var(--brd)' : 'none'};flex-wrap:wrap;gap:8px">
               <div><div style="font-size:13px;font-weight:700">${esc(c.issue)}</div><div style="font-size:11px;color:var(--mut);margin-top:2px">${esc(c.zone)} · ${c.time} · By ${esc(c.uname)}</div></div>
               ${statusBadge(c.status)}
             </div>`).join('')}
@@ -618,10 +926,10 @@ function removeImg() {
 
 function submitComplaint() {
   const issue = document.getElementById('ci-issue').value;
-  const zone  = document.getElementById('ci-zone').value;
-  const desc  = document.getElementById('ci-desc').value.trim();
+  const zone = document.getElementById('ci-zone').value;
+  const desc = document.getElementById('ci-desc').value.trim();
   if (!issue) { toast('Please select an issue type', 'er'); return; }
-  if (!zone)  { toast('Please select a zone', 'er'); return; }
+  if (!zone) { toast('Please select a zone', 'er'); return; }
 
   const id = 'C' + String(S.comps.length + 1).padStart(3, '0');
   S.comps.unshift({ id, issue, zone, desc, uid: S.me.id, uname: S.me.name, time: 'Just now', status: 'Pending', img: S.upImg });
@@ -660,22 +968,22 @@ function renderAllC() {
 function renderCaseList(pgId, list, isAdmin, title, sub, fc) {
   const f = S.activeFilter;
   const filtered = f === 'All' ? list : list.filter(c => c.status === f);
-  const counts = { All: list.length, Pending: list.filter(c=>c.status==='Pending').length, 'In Progress': list.filter(c=>c.status==='In Progress').length, Resolved: list.filter(c=>c.status==='Resolved').length };
+  const counts = { All: list.length, Pending: list.filter(c => c.status === 'Pending').length, 'In Progress': list.filter(c => c.status === 'In Progress').length, Resolved: list.filter(c => c.status === 'Resolved').length };
 
   document.getElementById(pgId).innerHTML = `
     <div class="pp">
       <h2 class="page-title">${title}</h2>
       <p class="page-sub" style="margin-bottom:16px">${sub}</p>
       <div class="filter-row">
-        ${['All','Pending','In Progress','Resolved'].map(x => `
+        ${['All', 'Pending', 'In Progress', 'Resolved'].map(x => `
           <button class="filter-btn${x === f ? ` active-${fc}` : ''}"
                   onclick="setFilter('${x}','${pgId}',${isAdmin})">
             ${x} (${counts[x]})
           </button>`).join('')}
       </div>
       ${filtered.length === 0
-        ? `<div class="card empty-state"><div class="ei">📭</div>No complaints in this category.</div>`
-        : `<div class="cc-wrap">${filtered.map(c => complaintCardHtml(c, isAdmin)).join('')}</div>`}
+      ? `<div class="card empty-state"><div class="ei">📭</div>No complaints in this category.</div>`
+      : `<div class="cc-wrap">${filtered.map(c => complaintCardHtml(c, isAdmin)).join('')}</div>`}
     </div>`;
 }
 
@@ -685,8 +993,8 @@ function setFilter(f, pgId, isAdmin) {
 }
 
 function complaintCardHtml(c, isAdmin) {
-  const ex  = S.expanded === c.id;
-  const nx  = STATUS_NEXT[c.status];
+  const ex = S.expanded === c.id;
+  const nx = STATUS_NEXT[c.status];
   const actBtn = isAdmin && nx
     ? `<button class="btn btn-b btn-sm" onclick="updateStatus('${c.id}')">→ Mark ${esc(nx)}</button>`
     : '';
@@ -736,10 +1044,10 @@ function updateStatus(id) {
    REPORTS
 ═══════════════════════════════════════════════════ */
 function renderReports() {
-  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const vals = [38, 55, 50, 72, 85, 40, 25];
   const maxV = Math.max(...vals);
-  const resolvedPct = Math.round(S.comps.filter(c=>c.status==='Resolved').length / Math.max(S.comps.length,1) * 100);
+  const resolvedPct = Math.round(S.comps.filter(c => c.status === 'Resolved').length / Math.max(S.comps.length, 1) * 100);
 
   document.getElementById('pg-reports').innerHTML = `
     <div class="pp">
@@ -749,34 +1057,34 @@ function renderReports() {
       <div class="card" style="margin-bottom:18px">
         <div class="sec-title">📊 Weekly Waste Collection (Tonnes)</div>
         <div class="bar-chart">
-          ${days.map((d,i) => {
-            const h = Math.round(vals[i] / maxV * 110);
-            const peak = vals[i] === maxV;
-            return `
+          ${days.map((d, i) => {
+    const h = Math.round(vals[i] / maxV * 110);
+    const peak = vals[i] === maxV;
+    return `
               <div class="bar-col">
                 <div class="bar-val">${vals[i]}</div>
                 <div class="bar-bar" style="height:${h}px;background:${peak
-                  ? 'linear-gradient(180deg,#16a34a,#22c55e)'
-                  : 'linear-gradient(180deg,#86efac,#bbf7d0)'}"></div>
+        ? 'linear-gradient(180deg,#16a34a,#22c55e)'
+        : 'linear-gradient(180deg,#86efac,#bbf7d0)'}"></div>
                 <div class="bar-lbl">${d}</div>
               </div>`;
-          }).join('')}
+  }).join('')}
         </div>
       </div>
 
       <div class="grid-3">
         ${[
-          { l:'Total Collected',   v:'365 T',          i:'🗑️', c:'+12%', p:true  },
-          { l:'Avg per Day',       v:'52.1 T',          i:'📦', c:'+5%',  p:true  },
-          { l:'Resolution Rate',   v:resolvedPct+'%',   i:'✅', c:'+4%',  p:true  },
-          { l:'Trucks Utilised',   v:'6 / 8',           i:'🚛', c:'-1',   p:false },
-          { l:'Zones Covered',     v:'8 / 8',           i:'🗺️', c:'100%', p:true  },
-          { l:'Avg Response',      v:'2.1 hrs',         i:'⏱️', c:'-22m', p:true  },
-        ].map(x => `
+      { l: 'Total Collected', v: '365 T', i: '🗑️', c: '+12%', p: true },
+      { l: 'Avg per Day', v: '52.1 T', i: '📦', c: '+5%', p: true },
+      { l: 'Resolution Rate', v: resolvedPct + '%', i: '✅', c: '+4%', p: true },
+      { l: 'Trucks Utilised', v: '6 / 8', i: '🚛', c: '-1', p: false },
+      { l: 'Zones Covered', v: '8 / 8', i: '🗺️', c: '100%', p: true },
+      { l: 'Avg Response', v: '2.1 hrs', i: '⏱️', c: '-22m', p: true },
+    ].map(x => `
           <div class="stat-card">
             <div style="display:flex;justify-content:space-between;align-items:flex-start">
               <span style="font-size:22px">${x.i}</span>
-              <span style="font-size:10px;font-weight:800;color:${x.p?'#16a34a':'#dc2626'};background:${x.p?'#f0fdf4':'#fff1f2'};padding:2px 8px;border-radius:20px">${x.c}</span>
+              <span style="font-size:10px;font-weight:800;color:${x.p ? '#16a34a' : '#dc2626'};background:${x.p ? '#f0fdf4' : '#fff1f2'};padding:2px 8px;border-radius:20px">${x.c}</span>
             </div>
             <div class="st-val" style="font-size:22px;margin-top:10px">${x.v}</div>
             <div class="st-label" style="margin-top:3px">${x.l}</div>
@@ -789,9 +1097,9 @@ function renderReports() {
    SETTINGS
 ═══════════════════════════════════════════════════ */
 function renderSettings() {
-  const emp   = isEmp();
-  const avBg  = emp ? 'linear-gradient(135deg,#1d4ed8,#60a5fa)' : 'linear-gradient(135deg,#16a34a,#4ade80)';
-  const rClr  = emp ? '#1d4ed8' : '#16a34a';
+  const emp = isEmp();
+  const avBg = emp ? 'linear-gradient(135deg,#1d4ed8,#60a5fa)' : 'linear-gradient(135deg,#16a34a,#4ade80)';
+  const rClr = emp ? '#1d4ed8' : '#16a34a';
 
   document.getElementById('pg-settings').innerHTML = `
     <div class="pp">
@@ -814,10 +1122,10 @@ function renderSettings() {
         <div class="card">
           <div class="sec-title" style="margin-bottom:14px">⚙️ Preferences</div>
           ${[
-            { id:'tog-notif',  lbl:'Push Notifications',  sub:'Enable browser alerts',       on: S.notif,  fn:"togglePref('notif','tog-notif')"  },
-            { id:'tog-balert', lbl:'Critical Bin Alerts',  sub:'Alert when bin exceeds 80%',  on: S.balert, fn:"togglePref('balert','tog-balert')" },
-            { id:'tog-dark',   lbl:'Dark Mode',             sub:'Switch to dark theme',        on: S.dark,   fn:'toggleDark()'                      },
-          ].map(x => `
+      { id: 'tog-notif', lbl: 'Push Notifications', sub: 'Enable browser alerts', on: S.notif, fn: "togglePref('notif','tog-notif')" },
+      { id: 'tog-balert', lbl: 'Critical Bin Alerts', sub: 'Alert when bin exceeds 80%', on: S.balert, fn: "togglePref('balert','tog-balert')" },
+      { id: 'tog-dark', lbl: 'Dark Mode', sub: 'Switch to dark theme', on: S.dark, fn: 'toggleDark()' },
+    ].map(x => `
             <div class="pref-row">
               <div>
                 <div class="pref-label">${x.lbl}</div>
